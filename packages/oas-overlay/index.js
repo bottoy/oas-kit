@@ -30,7 +30,7 @@ function process(result,src,update,options){
 
 function apply(overlay,openapi,options){
     const src = deref(clone(openapi));
-    for (let update of overlay.overlay.updates) {
+    for (let update of overlay.updates||overlay.overlay.updates) {
         try {
             const result = jmespath.search(src,update.target);
             const rtype = truetype(result);
@@ -57,7 +57,7 @@ function apply(overlay,openapi,options){
                 }
             }
             else {
-                console.warn(update.target,'cannot update immutable type',rtype);
+                console.warn(update.target,'cannot update value type',rtype,'(target parent instead)');
             }
         }
         catch (ex) {
